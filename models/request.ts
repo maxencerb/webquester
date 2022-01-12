@@ -30,10 +30,21 @@ type SaveRequestType = {
     uid: string
 }
 
+type AppResponse = {
+    status: number;
+    body: string;
+    time: number;
+    size: number;
+    headers: {
+        [key: string]: string;
+    }
+}
+
 export type {
     Request,
     AuthorizationInfo,
     HeadersType,
     AppRequestType,
-    SaveRequestType
+    SaveRequestType,
+    AppResponse
 }

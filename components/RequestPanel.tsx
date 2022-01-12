@@ -6,8 +6,8 @@ import Authorization from './request/Authorization'
 import Content from './request/Content'
 import Headers from './request/Headers'
 import Raw from './request/Raw'
-import { AppRequestType } from '@models/request'
-import { fromRequestToRawRequest } from '@services/request'
+import { AppRequestType, AppResponse } from '@models/request'
+import { fromRequestToRawRequest, makeRequest } from '@services/request'
 import { IoSend } from 'react-icons/io5'
 import { AiFillSave } from 'react-icons/ai'
 import SaveRequest from './request/SaveRequest'
@@ -40,11 +40,17 @@ const defaultRequest: AppRequestType = {
     }
 }
 
-export default function RequestPanel() {
+type Props = {
+    setCurrentResponse: (response: AppResponse) => void
+}
+
+export default function RequestPanel({ setCurrentResponse }: Props) {
 
     const [currentRequest, setCurrentRequest] = useState<AppRequestType>(defaultRequest)
     const [currentWindow, setCurrentWindow] = useState(Object.keys(windows)[0])
     const [isSaveAlertOpen, setIsSaveAlertOpen] = useState(false)
+
+    const [loading, setLoading] = useState(false)
 
     return (
         <PanelLayout>
@@ -162,7 +168,13 @@ export default function RequestPanel() {
                             variant='solid'
                             colorScheme='teal'
                             rightIcon={<IoSend/>}
-                            isLoading={false}
+                            isLoading={loading}
+                            onClick={async () => {
+                                setLoading(true)
+                                const res = await makeRequest(currentRequest)
+                                setCurrentResponse(res)
+                                setLoading(false)
+                            }}
                         >Request</Button>
                     </Stack>
                 </Flex>

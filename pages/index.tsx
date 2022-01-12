@@ -2,13 +2,19 @@ import AppBar from '@components/app-bar'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { localRequest } from '@services/request'
 import { Center, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react'
 import RequestPanel from '@components/RequestPanel'
 import { BsFillLightningChargeFill } from 'react-icons/bs'
 import SavedRequests from '@components/saves/SavedRequests'
+import ResponsePanel from '@components/ResponsePanel'
+import ResponsePlaceholder from '@components/ResponsePlaceholder'
+import { AppResponse } from '@models/request'
+import { useState } from 'react'
 
 const Home: NextPage = () => {
+  
+  const [currentResponse, setCurrentResponse] = useState<AppResponse>()
+  
   return (
     <Stack
       spacing={4}
@@ -45,7 +51,14 @@ const Home: NextPage = () => {
       <Flex
         flexDirection={['column', 'column', 'row', 'row']}
       >
-        <RequestPanel/>
+        <RequestPanel
+          setCurrentResponse={setCurrentResponse}
+        />
+        {currentResponse ? 
+          <ResponsePanel
+            {...currentResponse}
+          /> :  <ResponsePlaceholder/>
+        } 
       </Flex>
 
       
