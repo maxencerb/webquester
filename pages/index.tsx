@@ -8,12 +8,28 @@ import { BsFillLightningChargeFill } from 'react-icons/bs'
 import SavedRequests from '@components/saves/SavedRequests'
 import ResponsePanel from '@components/ResponsePanel'
 import ResponsePlaceholder from '@components/ResponsePlaceholder'
-import { AppResponse } from '@models/request'
+import { AppRequestType, AppResponse } from '@models/request'
 import { useState } from 'react'
+
+const defaultRequest: AppRequestType = {
+  method: 'GET',
+  url: '',
+  headers: [{
+      name: 'Content-Type',
+      value: 'application/json',
+      uid: 'default'
+  }],
+  body: '',
+  authInfo: {
+      type: 'Bearer',
+      token: ''
+  }
+}
 
 const Home: NextPage = () => {
   
   const [currentResponse, setCurrentResponse] = useState<AppResponse>()
+  const [currentRequest, setCurrentRequest] = useState<AppRequestType>(defaultRequest)
   
   return (
     <Stack
@@ -53,6 +69,8 @@ const Home: NextPage = () => {
       >
         <RequestPanel
           setCurrentResponse={setCurrentResponse}
+          currentRequest={currentRequest}
+          setCurrentRequest={setCurrentRequest}
         />
         {currentResponse ? 
           <ResponsePanel
@@ -63,7 +81,9 @@ const Home: NextPage = () => {
 
       
       <SavedRequests
-          loadRequest={(request) => {}}
+          loadRequest={(request) => {
+              setCurrentRequest(request)
+          }}
       />
 
     </Stack>

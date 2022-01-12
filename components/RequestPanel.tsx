@@ -25,28 +25,14 @@ const windows: {[key: string]: (props: WindowProps) => JSX.Element} = {
     'Raw': Raw
 }
 
-const defaultRequest: AppRequestType = {
-    method: 'GET',
-    url: '',
-    headers: [{
-        name: 'Content-Type',
-        value: 'application/json',
-        uid: 'default'
-    }],
-    body: '',
-    authInfo: {
-        type: 'Bearer',
-        token: ''
-    }
-}
-
 type Props = {
-    setCurrentResponse: (response: AppResponse) => void
+    setCurrentResponse: (response: AppResponse) => void,
+    currentRequest: AppRequestType, 
+    setCurrentRequest: React.Dispatch<React.SetStateAction<AppRequestType>>,
 }
 
-export default function RequestPanel({ setCurrentResponse }: Props) {
+export default function RequestPanel({ setCurrentResponse, currentRequest, setCurrentRequest }: Props) {
 
-    const [currentRequest, setCurrentRequest] = useState<AppRequestType>(defaultRequest)
     const [currentWindow, setCurrentWindow] = useState(Object.keys(windows)[0])
     const [isSaveAlertOpen, setIsSaveAlertOpen] = useState(false)
 

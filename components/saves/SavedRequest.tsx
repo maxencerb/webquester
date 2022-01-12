@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from '@chakra-ui/react'
+import { Box, Heading, Link, Text } from '@chakra-ui/react'
 import { AppRequestType, SaveRequestType } from '@models/request'
 import React from 'react'
 
@@ -19,12 +19,17 @@ export default function SavedRequest({ title, request, uid, loadRequest }: Props
         >
             <Heading
                 as='h5'
+                fontSize='sm'
             >
                 {title}
             </Heading>
-            <Text>
+            <Link
+                href={request.url}
+                isExternal
+                target='_blank'
+            >
                 {request.url}
-            </Text>
+            </Link>
         </Box>
     )
 }
