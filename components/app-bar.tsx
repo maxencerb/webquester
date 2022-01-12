@@ -22,7 +22,6 @@ export default function AppBar() {
         >
             <BsFillLightningChargeFill
                 size='24px'
-                marginRight='4'
                 color='#50c8c5'
             />
             <Heading
