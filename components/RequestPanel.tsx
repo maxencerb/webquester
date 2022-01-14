@@ -1,5 +1,5 @@
 import { Button, Flex, Input, position, Select, Stack, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { methods } from '@services/utils/request'
 import PanelLayout from './utils/PanelLayout'
 import Authorization from './request/Authorization'
@@ -38,6 +38,8 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
     const [isSaveAlertOpen, setIsSaveAlertOpen] = useState(false)
 
     const [loading, setLoading] = useState(false)
+
+    const memoizedValue = useMemo(() => fromRequestToRawRequest(currentRequest), [currentRequest])
 
     return (
         <PanelLayout>
@@ -133,7 +135,7 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
                 />
                 <Raw
                     displayed={currentWindow === 'Raw'}
-                    content={fromRequestToRawRequest(currentRequest)}
+                    content={memoizedValue}
                 />
                 <Flex
                     direction='row'
