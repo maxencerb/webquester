@@ -2,7 +2,7 @@ import AppBar from '@components/app-bar'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Center, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react'
+import { Center, Container, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react'
 import RequestPanel from '@components/RequestPanel'
 import { BsFillLightningChargeFill } from 'react-icons/bs'
 import SavedRequests from '@components/saves/SavedRequests'
@@ -79,12 +79,18 @@ const Home: NextPage = () => {
         } 
       </Flex>
 
-      
-      <SavedRequests
-          loadRequest={(request) => {
-              setCurrentRequest(request)
-          }}
-      />
+      <Center>
+        <Container
+          // centerContent
+          maxW="container.xl"
+        >
+          <SavedRequests
+              loadRequest={(request) => {
+                  setCurrentRequest(request)
+              }}
+          />
+        </Container>
+      </Center>
 
     </Stack>
   )
