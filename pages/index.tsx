@@ -2,7 +2,7 @@ import AppBar from '@components/app-bar'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Center, Container, Flex, Heading, Link, Stack, Text, useToast } from '@chakra-ui/react'
+import { Button, Center, Container, Flex, Heading, Link, Stack, Text, useToast } from '@chakra-ui/react'
 import RequestPanel from '@components/RequestPanel'
 import { BsFillLightningChargeFill } from 'react-icons/bs'
 import SavedRequests from '@components/saves/SavedRequests'
@@ -10,6 +10,7 @@ import ResponsePanel from '@components/ResponsePanel'
 import ResponsePlaceholder from '@components/ResponsePlaceholder'
 import { AppRequestType, AppResponse } from '@models/request'
 import { useState, useEffect } from 'react'
+import { toCurlRequest, toJavaScriptRequest, toPythonRequest } from '@services/codeGenerator'
 
 const defaultRequest: AppRequestType = {
   method: 'GET',
@@ -56,6 +57,14 @@ const Home: NextPage = () => {
       </Head>
 
       <AppBar/>
+
+      <Button
+        onClick={() => {
+          console.log(toCurlRequest(currentRequest))
+        }}
+      >
+        test
+      </Button>
 
       <Center>
         <Stack
