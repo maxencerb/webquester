@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Select, Stack } from '@chakra-ui/react'
+import { Button, Flex, Input, position, Select, Stack, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { methods } from '@services/utils/request'
 import PanelLayout from './utils/PanelLayout'
@@ -11,7 +11,6 @@ import { fromRequestToRawRequest, makeRequest } from '@services/request'
 import { IoSend } from 'react-icons/io5'
 import { AiFillSave } from 'react-icons/ai'
 import SaveRequest from './request/SaveRequest'
-import SavedRequests from './saves/SavedRequests'
 
 
 type WindowProps = any & {
@@ -32,6 +31,8 @@ type Props = {
 }
 
 export default function RequestPanel({ setCurrentResponse, currentRequest, setCurrentRequest }: Props) {
+
+    const toast = useToast()
 
     const [currentWindow, setCurrentWindow] = useState(Object.keys(windows)[0])
     const [isSaveAlertOpen, setIsSaveAlertOpen] = useState(false)
@@ -147,7 +148,31 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
                             colorScheme='green'
                             rightIcon={<AiFillSave/>}
                             onClick={() => {
-                                setIsSaveAlertOpen(true)
+                                // Check if the url is valid and not empty
+                                if (!currentRequest.url || currentRequest.url.length === 0) {
+                                    toast({
+                                        title: 'Error',
+                                        description: 'The url is empty',
+                                        status: 'error',
+                                        duration: 3000,
+                                        isClosable: true,
+                                        position: 'bottom-left'
+                                    })
+                                } else {
+                                    try {
+                                        new URL(currentRequest.url)
+                                        setIsSaveAlertOpen(true)
+                                    } catch (e) {
+                                        toast({
+                                            title: 'Error',
+                                            description: 'The url is invalid',
+                                            status: 'error',
+                                            duration: 3000,
+                                            isClosable: true,
+                                            position: 'bottom-left'
+                                        })
+                                    }
+                                }
                             }}
                         >Save Request</Button>
                         <Button
