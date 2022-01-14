@@ -62,9 +62,21 @@ const makeRequest = async (request: AppRequestType): Promise<AppResponse> => {
     return data as AppResponse;
 }
 
+const isValidRequest = (request: AppRequestType): boolean => {
+    if (!request.url) return false;
+    if (!request.method) return false;
+    try {
+        new URL(request.url);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 export {
     localRequest,
     fromRequestToRawRequest,
     getHeaders,
     makeRequest,
+    isValidRequest
 }

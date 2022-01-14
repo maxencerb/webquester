@@ -2,14 +2,14 @@ import AppBar from '@components/app-bar'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Center, Container, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react'
+import { Center, Container, Flex, Heading, Link, Stack, Text, useToast } from '@chakra-ui/react'
 import RequestPanel from '@components/RequestPanel'
 import { BsFillLightningChargeFill } from 'react-icons/bs'
 import SavedRequests from '@components/saves/SavedRequests'
 import ResponsePanel from '@components/ResponsePanel'
 import ResponsePlaceholder from '@components/ResponsePlaceholder'
 import { AppRequestType, AppResponse } from '@models/request'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const defaultRequest: AppRequestType = {
   method: 'GET',
@@ -28,8 +28,22 @@ const defaultRequest: AppRequestType = {
 
 const Home: NextPage = () => {
   
+  const toast = useToast()
+
   const [currentResponse, setCurrentResponse] = useState<AppResponse>()
   const [currentRequest, setCurrentRequest] = useState<AppRequestType>(defaultRequest)
+
+  useEffect(() => {
+    if(currentResponse && currentResponse.type === 'error') {
+      toast({
+        title: 'Error',
+        description: currentResponse.error,
+        status: 'error',
+        duration: 5000,
+        isClosable: true
+      })
+    }
+  }, [currentResponse, toast])
   
   return (
     <Stack
@@ -72,7 +86,8 @@ const Home: NextPage = () => {
           currentRequest={currentRequest}
           setCurrentRequest={setCurrentRequest}
         />
-        {currentResponse ? 
+        {/* If currentResponse is type of OkAppResponse */}
+        {currentResponse && currentResponse.type === "ok" ? 
           <ResponsePanel
             {...currentResponse}
           /> :  <ResponsePlaceholder/>

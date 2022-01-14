@@ -1,4 +1,4 @@
-import { Button, Flex, Input, position, Select, Stack, useToast } from '@chakra-ui/react'
+import { Button, Flex, Input, Select, Stack, useToast } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { methods } from '@services/utils/request'
 import PanelLayout from './utils/PanelLayout'
@@ -7,7 +7,7 @@ import Content from './request/Content'
 import Headers from './request/Headers'
 import Raw from './request/Raw'
 import { AppRequestType, AppResponse } from '@models/request'
-import { fromRequestToRawRequest, makeRequest } from '@services/request'
+import { fromRequestToRawRequest, isValidRequest, makeRequest } from '@services/request'
 import { IoSend } from 'react-icons/io5'
 import { AiFillSave } from 'react-icons/ai'
 import SaveRequest from './request/SaveRequest'
@@ -40,6 +40,8 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
     const [loading, setLoading] = useState(false)
 
     const memoizedValue = useMemo(() => fromRequestToRawRequest(currentRequest), [currentRequest])
+
+    const isInvalid = useMemo(() => !isValidRequest(currentRequest), [currentRequest])
 
     return (
         <PanelLayout>
@@ -188,6 +190,7 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
                                 setCurrentResponse(res)
                                 setLoading(false)
                             }}
+                            isDisabled={isInvalid}
                         >Request</Button>
                     </Stack>
                 </Flex>

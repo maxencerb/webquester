@@ -1,12 +1,12 @@
 import { Button, Flex, Stack, Stat, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react'
-import { AppResponse } from '@models/request'
+import { OkAppResponse } from '@models/request'
 import { httpStatus } from '@services/utils/request'
 import React, { useState } from 'react'
 import Body from './response/Body'
 import PanelLayout from './utils/PanelLayout'
 import Headers from './response/Headers'
 
-export default function ResponsePanel({ status, body, time, size, headers }: AppResponse) {
+export default function ResponsePanel({ status, body, time, size, headers }: OkAppResponse) {
     
     const timeHelpText = time < 1000 ? 'Fast' : 
         time < 5000 ? 'Normal' :

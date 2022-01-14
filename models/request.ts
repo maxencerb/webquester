@@ -31,7 +31,8 @@ type SaveRequestType = {
     timestamp: number
 }
 
-type AppResponse = {
+type OkAppResponse = {
+    type: "ok";
     status: number;
     body: string;
     time: number;
@@ -41,11 +42,20 @@ type AppResponse = {
     }
 }
 
+type ErrorAppResponse = {
+    type: "error";
+    error: string;
+}
+
+type AppResponse = OkAppResponse | ErrorAppResponse
+
 export type {
     Request,
     AuthorizationInfo,
     HeadersType,
     AppRequestType,
     SaveRequestType,
-    AppResponse
+    AppResponse,
+    OkAppResponse,
+    ErrorAppResponse
 }
