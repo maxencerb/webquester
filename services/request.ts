@@ -40,7 +40,7 @@ const getHeaders = (req: AppRequestType): { [key: string]: string } => {
     const headers: { [key: string]: string } = {};
     if ((req.authInfo.type === 'Basic' && req.authInfo.username && req.authInfo.password) || ((req.authInfo.type === 'Bearer' || req.authInfo.type === 'Custom') && req.authInfo.token)) {
         const type = req.authInfo.type !== 'Custom' ? req.authInfo.type : '';
-        const token = req.authInfo.type === 'Basic' ? btoa(`${req.authInfo.username}:${req.authInfo.password}`) : req.authInfo.token;
+        const token = req.authInfo.type === 'Basic' ? encode(`${req.authInfo.username}:${req.authInfo.password}`) : req.authInfo.token;
         headers['Authorization'] = `${type} ${token}`;
     }
     req.headers.forEach((header) => {
