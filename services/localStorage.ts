@@ -17,7 +17,8 @@ const saveRequest = (request: AppRequestType, title: string): boolean => {
     savedRequests.push({
         request,
         title,
-        uid: createRandomUid()
+        uid: createRandomUid(),
+        timestamp: Date.now()
     });
     try {
         localStorage.setItem(storageSpace, JSON.stringify(savedRequests));

@@ -65,7 +65,7 @@ const Home: NextPage = () => {
       >An open-source tool to test requests online (<Link href='https://github.com/maxencerb/webquester' target='_blank'>view on Github</Link>)</Text>
 
       <Flex
-        flexDirection={['column', 'column', 'row', 'row']}
+        flexDirection={['column', 'column', 'column', 'row']}
       >
         <RequestPanel
           setCurrentResponse={setCurrentResponse}

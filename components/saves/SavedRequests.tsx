@@ -1,9 +1,10 @@
 import { AppRequestType, SaveRequestType } from '@models/request'
 import React, { useEffect, useState } from 'react'
 import { deleteAllRequests, getSavedRequests } from '@services/localStorage'
-import { Heading, Stack, Wrap, WrapItem, Text, Flex, Button, useToast } from '@chakra-ui/react'
+import { Heading, Stack, Wrap, WrapItem, Text, Flex, Button, useToast, IconButton } from '@chakra-ui/react'
 import SavedRequest from './SavedRequest'
 import { AiOutlineReload, AiOutlineDelete } from 'react-icons/ai'
+import { BsPencil } from 'react-icons/bs'
 
 type Props = {
     loadRequest: (request: AppRequestType) => void,
@@ -40,6 +41,27 @@ export default function SavedRequests({ loadRequest }: Props) {
             <Heading as='h2' textAlign='center'>
                 Saved Requests
             </Heading>
+            <Text textAlign='center'>
+                Click on a request 
+                <IconButton
+                    icon={<BsPencil />}
+                    aria-label='Edit demo'
+                    variant='ghost'
+                    size='sm'
+                    ml={2}
+                    mr={2}
+                    // display='inline'
+                    colorScheme='blue'
+                />
+                icon to load it and press on the
+                <Button
+                    leftIcon={<AiOutlineReload />}
+                    size='sm'
+                    ml={2}
+                    mr={2}
+                >Reload</Button>
+                button if they do not appear
+            </Text>
             <Flex
                 direction='row'
                 justifyContent='flex-end'
@@ -86,10 +108,18 @@ export default function SavedRequests({ loadRequest }: Props) {
             </Flex>
             {
                 savedRequests.length === 0 ?  <Text textAlign='center'>No saved requests</Text> :
-                <Wrap>
+                <Wrap
+                    spacing={4}
+                    direction={['column', 'row', 'row', 'row']}
+                    alignItems='center'
+                    justifyContent='center'
+                >
                 {savedRequests.map(request => (
                     <WrapItem
                         key={request.uid}
+                        display='flex'
+                        alignItems='center'
+                        justifyContent='center'
                     >
                         <SavedRequest
                             {...request}

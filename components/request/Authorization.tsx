@@ -34,7 +34,7 @@ export default function Authorization({ displayed, onAuthorizationChange, author
                         })
                     }
                 }}
-                defaultValue={requestAuthorizations[0]}
+                value={authorization.type}
             >
                 <Stack
                     spacing={4}

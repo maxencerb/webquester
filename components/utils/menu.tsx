@@ -30,7 +30,7 @@ export default function MyMenu() {
                     {colorMode === 'light' ? 'Dark Mode' : 'Light Mode'}
                 </MenuItem>
                 <MenuItem icon={<BsGithub />} as='a' href='https://github.com/maxencerb/webquester' target='_blank'>
-                    View Docs
+                    View on Github
                 </MenuItem>
             </MenuList>
         </Menu>

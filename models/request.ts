@@ -27,7 +27,8 @@ type AppRequestType = Request & { authInfo: AuthorizationInfo }
 type SaveRequestType = {
     request: AppRequestType,
     title: string,
-    uid: string
+    uid: string,
+    timestamp: number
 }
 
 type AppResponse = {
