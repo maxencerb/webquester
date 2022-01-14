@@ -40,8 +40,19 @@ const deleteRequest = (index: number): boolean => {
     return true;
 }
 
+const deleteAllRequests = (): boolean => {
+    try {
+        localStorage.removeItem(storageSpace);
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+    return true;
+}
+
 export {
     getSavedRequests,
     saveRequest,
-    deleteRequest
+    deleteRequest,
+    deleteAllRequests
 }

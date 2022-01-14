@@ -1,15 +1,17 @@
 import { AppRequestType, SaveRequestType } from '@models/request'
 import React, { useEffect, useState } from 'react'
-import { getSavedRequests } from '@services/localStorage'
-import { Heading, Stack, Wrap, WrapItem, Text, Flex, Button } from '@chakra-ui/react'
+import { deleteAllRequests, getSavedRequests } from '@services/localStorage'
+import { Heading, Stack, Wrap, WrapItem, Text, Flex, Button, useToast } from '@chakra-ui/react'
 import SavedRequest from './SavedRequest'
-import { AiOutlineReload } from 'react-icons/ai'
+import { AiOutlineReload, AiOutlineDelete } from 'react-icons/ai'
 
 type Props = {
     loadRequest: (request: AppRequestType) => void,
 }
 
 export default function SavedRequests({ loadRequest }: Props) {
+
+    const toast = useToast()
 
     const [savedRequests, setSavedRequests] = useState<SaveRequestType[]>([])
 
@@ -22,7 +24,10 @@ export default function SavedRequests({ loadRequest }: Props) {
         const getRequestsAfterTimeout = () => {
             setTimeout(getRequests, 1000)
         }
+        // Load requests after 1 second when storage state changes
         window && window.addEventListener('storage', getRequestsAfterTimeout)
+        // Load requests on mount
+        getRequests()
         return () => window && window.removeEventListener('storage', getRequestsAfterTimeout)
     }, [])
 
@@ -39,12 +44,45 @@ export default function SavedRequests({ loadRequest }: Props) {
                 direction='row'
                 justifyContent='flex-end'
             >
-                <Button
-                    onClick={() => {
-                        getRequests()
-                    }}
-                    leftIcon={<AiOutlineReload />}
-                >Reload</Button>
+                <Stack
+                    spacing={4}
+                    direction='row'
+                >
+                    <Button
+                        variant='outline'
+                        colorScheme='red'
+                        onClick={() => {
+                            const done = deleteAllRequests();
+                            if (done) {
+                                setSavedRequests([])
+                                toast({
+                                    title: 'All requests deleted',
+                                    description: 'All requests have been deleted',
+                                    status: 'success',
+                                    duration: 3000,
+                                    isClosable: true,
+                                    position: 'bottom-left',
+                                })
+                            } else {
+                                toast({
+                                    title: 'Error',
+                                    description: 'There was an error deleting all requests',
+                                    status: 'error',
+                                    duration: 3000,
+                                    isClosable: true,
+                                    position: 'bottom-left',
+                                })
+                            }
+                        }}
+                        rightIcon={<AiOutlineDelete />}
+                    >Delete All</Button>
+                    <Button
+                        onClick={() => {
+                            getRequests()
+                        }}
+                        leftIcon={<AiOutlineReload />}
+                    >Reload</Button>
+                </Stack>
             </Flex>
             {
                 savedRequests.length === 0 ?  <Text textAlign='center'>No saved requests</Text> :
