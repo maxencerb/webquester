@@ -48,13 +48,17 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
             <Stack
                 spacing={4}
                 direction='column'
+                as='form'
+                onSubmit={(e) => {
+                    e.preventDefault()
+                }}
             >
                 <Stack
                     spacing={4}
                     direction='row'
                 >
                     <Input 
-                        placeholder='https://maxenceraballand.com' 
+                        placeholder='https://api.github.com' 
                         minWidth='250px' 
                         flex={['4', '4', '3', '3']} 
                         onChange={(e) => {
@@ -186,11 +190,19 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
                             isLoading={loading}
                             onClick={async () => {
                                 setLoading(true)
-                                const res = await makeRequest(currentRequest)
-                                setCurrentResponse(res)
+                                try {
+                                    const res = await makeRequest(currentRequest)
+                                    setCurrentResponse(res)
+                                } catch (e: any) {
+                                    setCurrentResponse({
+                                        type: 'error',
+                                        error: e?.message || 'Unknown error'
+                                    })
+                                }
                                 setLoading(false)
                             }}
                             isDisabled={isInvalid}
+                            type='submit'
                         >Request</Button>
                     </Stack>
                 </Flex>

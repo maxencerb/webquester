@@ -58,13 +58,13 @@ const Home: NextPage = () => {
 
       <AppBar/>
 
-      <Button
+      {/* <Button
         onClick={() => {
           console.log(toCurlRequest(currentRequest))
         }}
       >
         test
-      </Button>
+      </Button> */}
 
       <Center>
         <Stack
