@@ -51,9 +51,45 @@ const deleteAllRequests = (): boolean => {
     return true;
 }
 
+const downloadSavedRequests = () => {
+    const savedRequests = getSavedRequests();
+    const json = JSON.stringify(savedRequests, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'saved-requests.json';
+    a.click();
+    window && window.URL.revokeObjectURL(url);
+}
+
+const importRequests = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const data = JSON.parse(e.target?.result as string) as Array<SaveRequestType>;
+        const savedRequests = getSavedRequests();
+        data.forEach(request => {
+            const index = savedRequests.findIndex(r => r.uid === request.uid);
+            if (index === -1) {
+                savedRequests.push(request);
+            } else {
+                savedRequests[index] = request;
+            }
+        });
+        try {
+            localStorage.setItem(storageSpace, JSON.stringify(savedRequests));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    reader.readAsText(file);
+}
+
 export {
     getSavedRequests,
     saveRequest,
     deleteRequest,
-    deleteAllRequests
+    deleteAllRequests,
+    downloadSavedRequests,
+    importRequests
 }

@@ -1,10 +1,10 @@
 import { AppRequestType, SaveRequestType } from '@models/request'
 import React, { useEffect, useState } from 'react'
 import { deleteAllRequests, getSavedRequests } from '@services/localStorage'
-import { Heading, Stack, Wrap, WrapItem, Text, Flex, Button, useToast, IconButton } from '@chakra-ui/react'
+import { Heading, Stack, Wrap, WrapItem, Text, Flex, Button, useToast, IconButton, Container, Center } from '@chakra-ui/react'
 import SavedRequest from './SavedRequest'
 import { AiOutlineReload, AiOutlineDelete } from 'react-icons/ai'
-import { BsPencil } from 'react-icons/bs'
+import { BsPencil, BsThreeDots } from 'react-icons/bs'
 
 type Props = {
     loadRequest: (request: AppRequestType) => void,
@@ -41,27 +41,42 @@ export default function SavedRequests({ loadRequest }: Props) {
             <Heading as='h2' textAlign='center'>
                 Saved Requests
             </Heading>
-            <Text textAlign='center'>
-                Click on a request 
-                <IconButton
-                    icon={<BsPencil />}
-                    aria-label='Edit demo'
-                    variant='ghost'
-                    size='sm'
-                    ml={2}
-                    mr={2}
-                    // display='inline'
-                    colorScheme='blue'
-                />
-                icon to load it and press on the
-                <Button
-                    leftIcon={<AiOutlineReload />}
-                    size='sm'
-                    ml={2}
-                    mr={2}
-                >Reload</Button>
-                button if they do not appear
-            </Text>
+            <Center>
+                <Container
+                    maxW='xl'
+                >
+                    <Text textAlign='center'>
+                        Click on a request 
+                        <IconButton
+                            icon={<BsPencil />}
+                            aria-label='Edit demo'
+                            variant='ghost'
+                            size='sm'
+                            ml={2}
+                            mr={2}
+                            // display='inline'
+                            colorScheme='blue'
+                        />
+                        icon to load it and press on the
+                        <Button
+                            leftIcon={<AiOutlineReload />}
+                            size='sm'
+                            ml={2}
+                            mr={2}
+                        >Reload</Button>
+                        button if they do not appear. From the top right menu
+                        <IconButton
+                            icon={<BsThreeDots />}
+                            aria-label='Options'
+                            variant='outline'
+                            size='sm'
+                            ml={2}
+                            mr={2}
+                        />
+                        , you can either export or import requests in JSON format. This is a specific format for WebQuester.
+                    </Text>
+                </Container>
+            </Center>
             <Flex
                 direction='row'
                 justifyContent='flex-end'
