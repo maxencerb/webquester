@@ -60,7 +60,6 @@ export default async function handler(
                 size: responseSize,
                 headers: responseHeaders,
             })
-            
         } catch (error) {
             res.status(500)
         }
