@@ -16,6 +16,7 @@ import {
 import { AppRequestType } from '@models/request';
 import { toCurlRequest, toJavaScriptRequest, toPythonRequest } from '@services/codeGenerator';
 import React from 'react';
+import CodeBlock from './CodeBlock';
 
 type Props = {
     isOpen: boolean;
@@ -24,21 +25,21 @@ type Props = {
 };
 
 type CodeCompiler = {
-    name: string;
+    name: 'python' | 'javascript' | 'curl';
     compiler: (request: AppRequestType) => string;
 }
 
 const codeCompilers: CodeCompiler[] = [
     {
-        name: 'Curl',
+        name: 'curl',
         compiler: toCurlRequest,
     },
     {
-        name: 'JavaScript',
+        name: 'javascript',
         compiler: toJavaScriptRequest,
     },
     {
-        name: 'Python',
+        name: 'python',
         compiler: toPythonRequest,
     }
 ]
@@ -67,7 +68,9 @@ export default function CodeContainer({ isOpen, request, onClose }: Props) {
                         <TabPanels>
                             {codeCompilers.map(({ name, compiler }) => (
                                 <TabPanel key={name}>
-                                    
+                                    <CodeBlock language={name === "curl" ? "bash" : name}>
+                                        {compiler(request)}
+                                    </CodeBlock>
                                 </TabPanel>
                             ))}
                         </TabPanels>
