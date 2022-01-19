@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Select, Stack, useToast } from '@chakra-ui/react'
+import { Button, Flex, IconButton, Input, Select, Stack, Tooltip, useToast } from '@chakra-ui/react'
 import React, { useMemo, useState } from 'react'
 import { methods } from '@services/utils/request'
 import PanelLayout from './utils/PanelLayout'
@@ -11,6 +11,8 @@ import { fromRequestToRawRequest, isValidRequest, makeRequest } from '@services/
 import { IoSend } from 'react-icons/io5'
 import { AiFillSave } from 'react-icons/ai'
 import SaveRequest from './request/SaveRequest'
+import { FaCode } from 'react-icons/fa'
+import CodeContainer from './code/CodeContainer'
 
 
 type WindowProps = any & {
@@ -36,6 +38,7 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
 
     const [currentWindow, setCurrentWindow] = useState(Object.keys(windows)[0])
     const [isSaveAlertOpen, setIsSaveAlertOpen] = useState(false)
+    const [isCodeContainerOpen, setIsCodeContainerOpen] = useState(false)
 
     const [loading, setLoading] = useState(false)
 
@@ -53,6 +56,30 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
                     e.preventDefault()
                 }}
             >
+                <Flex
+                    direction='row'
+                    justify='flex-end'
+                >
+                    <Stack
+                        spacing={4}
+                        direction='row'
+                        align='center'
+                    >
+                        <Tooltip
+                            label='Convert to code'
+                        >
+                            <IconButton
+                                variant='outline'
+                                aria-label='Convert to code'
+                                icon={<FaCode />}
+                                onClick={() => {
+                                    setIsCodeContainerOpen(true)
+                                }}
+                                disabled={isInvalid || isCodeContainerOpen}
+                            />
+                        </Tooltip>
+                    </Stack>
+                </Flex>
                 <Stack
                     spacing={4}
                     direction='row'
@@ -206,11 +233,19 @@ export default function RequestPanel({ setCurrentResponse, currentRequest, setCu
                         >Request</Button>
                     </Stack>
                 </Flex>
+                {/* Invisible popovers */}
                 <SaveRequest
                     currentRequest={currentRequest}
                     isOpen={isSaveAlertOpen}
                     triggerClose={() => {
                         setIsSaveAlertOpen(false)
+                    }}
+                />
+                <CodeContainer
+                    request={currentRequest}
+                    isOpen={isCodeContainerOpen}
+                    onClose={() => {
+                        setIsCodeContainerOpen(false)
                     }}
                 />
             </Stack>

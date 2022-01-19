@@ -56,9 +56,23 @@ const toCurlRequest = (request: AppRequestType): string => {
     return content
 }
 
+// Not finnished
+const toCSRequest = (request: AppRequestType): string => {
+    const headers = getHeaders(request);
+    var content = `using System.Net.Http;\nusing System.Net.Http.Headers;\n\n`;
+    content += `var client = new HttpClient();\n`;
+    for (const key in headers) {
+        content += `client.DefaultRequestHeaders.Add("${key}", "${headers[key]}");\n`
+    }
+    content += `\nvar response = await client.${request.method.toLowerCase()}Async("${request.url}");\n`;
+    content += `\nvar content = await response.Content.ReadAsStringAsync();\n`;
+    return content
+}
+
 
 export {
     toJavaScriptRequest,
     toPythonRequest,
-    toCurlRequest
+    toCurlRequest,
+    toCSRequest
 }
