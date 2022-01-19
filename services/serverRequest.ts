@@ -12,16 +12,16 @@ const setParamters = (request: AppRequestType, headers: { [key: string]: string 
 }
 
 const serverFetch = async (url: string, parameters: any): Promise<Response | string> => {
-    const controller = new AbortController()
-    const id = setTimeout(() => {
-        controller.abort()
-    }, 8000)
+    // const controller = new AbortController()
+    // const id = setTimeout(() => {
+    //     controller.abort()
+    // }, 8000)
     try {
         const response = await fetch(url, {
             ...parameters,
-            signal: controller.signal,
+            // signal: controller.signal,
         })
-        clearTimeout(id)
+        // clearTimeout(id)
         return response
     } catch (error: any) {
         return error.message
